@@ -1,0 +1,25 @@
+name: بناء تطبيق Android
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: تثبيت Java
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+    - name: بناء التطبيق
+      run: |
+        chmod +x gradlew
+        ./gradlew assembleDebug
+    - name: رفع ملف APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: التطبيق
+        path: app/build/outputs/apk/debug/app-debug.apk
